@@ -1,0 +1,65 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+              allowedOrigins: "*"
+              allowedMethods: "*"
+              allowedHeaders: "*"
+      routes:
+        - id: CUSTOMER-SERVICE
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/customer/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: CUSTOMER-SERVICE
+                fallbackuri: forward:/customerServiceFallBack
+        - id: VALIDATOR-SERVICE
+          uri: lb://VALIDATOR-SERVICE
+          predicates:
+            - Path=/validator/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: VALIDATOR-SERVICE
+                fallbackuri: forward:/validatorServiceFallBack
+        - id: customer-swagger-ui
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/swagger-ui.html
+        - id: customer-swagger-v2
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/v2/**
+        - id: customer-swagger-resources
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/swagger-resources/**
+        - id: customer-swagger-jars
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/webjars/**
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
