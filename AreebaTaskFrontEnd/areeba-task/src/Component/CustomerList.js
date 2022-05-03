@@ -181,7 +181,7 @@ return(
 							onClose={() => {
 								setState.showAlert=false;
 							}}
-							dismissible
+							
 						>
 							<Alert.Heading>{setState.alertMsg}</Alert.Heading>
 						</Alert>
@@ -237,7 +237,7 @@ return(
               <FormLabel>Enter the phone number (with country code ex :961)</FormLabel>
               <FormControl type="text" name="phone" value={number} onChange={handlePhoneChange} placeholder="Enter the phone number" ></FormControl>
             </FormGroup>
-							{setState.update === true ? <Button  onClick={updateRecord}>update</Button> : <Button onClick={addCustomer}>Save</Button>}
+							{setState.update === true ? <Button style={{marginTop:10}} onClick={updateRecord}>update</Button> : <Button style={{marginTop:10}} onClick={addCustomer}>Save</Button>}
 						</Form>
 					</Row>
                     </Container>

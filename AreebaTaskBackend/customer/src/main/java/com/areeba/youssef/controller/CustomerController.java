@@ -71,12 +71,11 @@ public class CustomerController {
         try {
 
         	 Resp resp = customerService.addCustomer(customerAddRequest);
-             if(resp.getCode()==2) {
               return  new ResponseEntity<>(resp ,HttpStatus.OK);
-             }
-             else {
-          	   return  new ResponseEntity<>(resp ,HttpStatus.BAD_REQUEST);
-             }
+             
+//             else {
+//          	   return  new ResponseEntity<>(resp ,HttpStatus.BAD_REQUEST);
+//             }
         }
         catch(Exception exception){
             return   new ResponseEntity<> (HttpStatus.INTERNAL_SERVER_ERROR);
